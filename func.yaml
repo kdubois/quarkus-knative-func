@@ -1,0 +1,25 @@
+specVersion: 0.35.0
+name: knfunc
+runtime: quarkus
+registry: image-registry.openshift-image-registry.svc:5000/knative
+image: image-registry.openshift-image-registry.svc:5000/knative/knfunc:latest
+imageDigest: sha256:ebc4292095c9ce76ee3f5782d727414b2b156f765bc9b4c961f410fb6abdcd86
+created: 2023-06-21T08:24:00.135734235+02:00
+invoke: cloudevent
+build:
+  builder: pack
+  buildEnvs:
+  - name: BP_NATIVE_IMAGE
+    value: "false"
+  - name: BP_MAVEN_BUILT_ARTIFACT
+    value: func.yaml target/quarkus-app/lib/ target/quarkus-app/*.jar target/quarkus-app/app/
+      target/quarkus-app/quarkus/
+  - name: BP_MAVEN_BUILD_ARGUMENTS
+    value: package -DskipTests=true -Dmaven.javadoc.skip=true -Dquarkus.package.type=fast-jar
+  - name: MAVEN_S2I_ARTIFACT_DIRS
+    value: target/quarkus-app
+  - name: S2I_SOURCE_DEPLOYMENTS_FILTER
+    value: lib quarkus-run.jar app quarkus
+  pvcSize: 256Mi
+deploy:
+  namespace: knative

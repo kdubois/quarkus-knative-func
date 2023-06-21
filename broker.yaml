@@ -1,0 +1,14 @@
+apiVersion: eventing.knative.dev/v1
+kind: Broker
+metadata:
+  name: default  
+spec:
+  config:
+    apiVersion: v1
+    kind: ConfigMap
+    name: config-br-default-channel
+    namespace: knative-eventing
+  delivery:
+    backoffDelay: PT0.2S
+    backoffPolicy: exponential
+    retry: 10

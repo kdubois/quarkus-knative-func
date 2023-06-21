@@ -1,0 +1,23 @@
+apiVersion: sources.knative.dev/v1
+kind: PingSource
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    sources.knative.dev/creator: kevin-dubois
+    sources.knative.dev/lastModifier: kevin-dubois
+  name: ping-source
+  labels:
+    app: ping-source
+    app.kubernetes.io/component: ping-source
+    app.kubernetes.io/instance: ping-source
+    app.kubernetes.io/name: ping-source
+    app.kubernetes.io/part-of: knativequarkusvoter
+spec:
+  contentType: application/json
+  data: '{"message":"test"}'
+  schedule: '*/2 * * * *'
+  sink:
+    ref:
+      apiVersion: eventing.knative.dev/v1
+      kind: Broker
+      name: default
